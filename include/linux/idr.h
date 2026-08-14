@@ -278,4 +278,31 @@ static inline bool ida_is_empty(const struct ida *ida)
 {
 	return radix_tree_empty(&ida->ida_rt);
 }
+
+static inline int ida_alloc(struct ida *ida, gfp_t gfp)
+{
+	return ida_simple_get(ida, 0, 0, gfp);
+}
+
+static inline int ida_alloc_min(struct ida *ida, unsigned int min, gfp_t gfp)
+{
+	return ida_simple_get(ida, min, 0, gfp);
+}
+
+static inline int ida_alloc_max(struct ida *ida, unsigned int max, gfp_t gfp)
+{
+	return ida_simple_get(ida, 0, max == 0x7fffffff ? 0 : max + 1, gfp);
+}
+
+static inline int ida_alloc_range(struct ida *ida, unsigned int min,
+				   unsigned int max, gfp_t gfp)
+{
+	return ida_simple_get(ida, min, max == 0x7fffffff ? 0 : max + 1, gfp);
+}
+
+static inline void ida_free(struct ida *ida, unsigned int id)
+{
+	ida_simple_remove(ida, id);
+}
+
 #endif /* __IDR_H__ */
