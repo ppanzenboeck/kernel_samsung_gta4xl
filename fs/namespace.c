@@ -1515,7 +1515,6 @@ static struct mount *clone_mnt(struct mount *old, struct dentry *root,
 	if (READ_ONCE(susfs_is_sdcard_android_data_decrypted)) {
 		goto skip_checking_for_ksu_proc;
 	}
-#endif
 
 	// - If /sdcard/Android is still not accessible, we keep checking for mounts
 	//   mounted by ksu process
